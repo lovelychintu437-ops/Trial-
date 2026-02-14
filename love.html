@@ -8,8 +8,13 @@
 <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
 
 <style>
-body{
+html,body{
   margin:0;
+  padding:0;
+  overflow-x:hidden;
+}
+
+body{
   min-height:100vh;
   background: linear-gradient(-45deg,#ff758c,#ff7eb3,#ff9a9e,#fad0c4);
   background-size:400% 400%;
@@ -17,7 +22,6 @@ body{
   font-family:'Segoe UI',sans-serif;
   color:white;
   text-align:center;
-  overflow-x:hidden;
 }
 
 @keyframes gradientMove{
@@ -69,6 +73,7 @@ body{
   left:0;
   z-index:1000;
   display:none;
+  overflow:hidden;
 }
 
 #maleHand{
@@ -90,12 +95,14 @@ body{
   touch-action:none;
 }
 
-/* CONTENT (IMPORTANT CHANGE — not fixed center anymore) */
+/* CONTENT */
 #content{
   display:none;
   max-width:900px;
-  margin:140px auto 40px;
+  margin:140px auto 80px;
   padding:20px;
+  position:relative;
+  z-index:10;
 }
 
 #typingText{
@@ -221,7 +228,6 @@ for(let j=1;j<=30;j++){
   track.appendChild(img);
 }
 
-/* Heart Tap */
 heart.addEventListener("click",()=>{
   heart.style.display="none";
   preText.style.opacity="1";
@@ -232,7 +238,6 @@ heart.addEventListener("click",()=>{
   },3000);
 });
 
-/* Drag System */
 let dragging=false,startX=0,startLeft=0,moved=false;
 
 female.addEventListener("pointerdown",(e)=>{
@@ -281,7 +286,6 @@ function moveToCenter(){
   },900);
 }
 
-/* Love Flow */
 function startLove(){
   document.getElementById("content").style.display="block";
   window.scrollTo({top:0,behavior:"smooth"});
@@ -331,7 +335,6 @@ function updateCarousel(){
   }
 }
 
-/* Floating hearts */
 setInterval(()=>{
   const h=document.createElement("div");
   h.className="heart";
@@ -343,4 +346,4 @@ setInterval(()=>{
 </script>
 
 </body>
-  </html>
+</html>
