@@ -36,12 +36,10 @@ body{
   top:50%;
   left:50%;
   transform:translate(-50%,-50%);
-  color:#fff0f5;
   font-family:'Dancing Script',cursive;
   font-size:clamp(24px,3vw,38px);
   text-align:center;
   z-index:2000;
-  text-shadow:2px 2px 10px rgba(255,182,193,0.8);
   opacity:0;
   transition:all 1s ease;
 }
@@ -80,67 +78,34 @@ body{
   left:0;
   top:55%;
   transform:translateY(-50%);
-  width:260px;
+  width:220px;
   pointer-events:none;
 }
 
 #femaleHand{
   position:fixed;
-  left:calc(100% - 260px);
+  left:calc(100% - 220px);
   top:55%;
   transform:translateY(-50%);
-  width:260px;
+  width:220px;
   cursor:grab;
   touch-action:none;
 }
 
-/* CONTENT */
+/* CONTENT FIXED */
 #content{
   display:none;
-  max-width:900px;
-  margin:140px auto 80px;
+  max-width:600px;
+  margin:80px auto;
   padding:20px;
   position:relative;
   z-index:10;
 }
 
 #typingText{
-  font-size:1.2em;
-  line-height:1.9;
-  white-space:normal;
-  min-height:300px;
-}
-
-/* Carousel */
-.carousel-container{
-  display:none;
-  margin-top:50px;
-  opacity:0;
-  transform:translateY(40px);
-  transition:all 1s ease;
-}
-
-.carousel-container.show{
-  display:block;
-  opacity:1;
-  transform:translateY(0);
-}
-
-.carousel-track{
-  position:relative;
-  height:420px;
-}
-
-.carousel-track img{
-  position:absolute;
-  top:0;
-  left:50%;
-  width:260px;
-  aspect-ratio:9/16;
-  object-fit:cover;
-  border-radius:25px;
-  transition:all 0.8s ease;
-  box-shadow:0 25px 50px rgba(0,0,0,0.4);
+  font-size:1.1em;
+  line-height:2;
+  text-align:center;
 }
 
 /* Floating Hearts */
@@ -158,10 +123,7 @@ body{
 }
 
 @media(max-width:768px){
-  #maleHand,#femaleHand{width:180px;}
-  .carousel-track{height:340px;}
-  .carousel-track img{width:200px;}
-  #preText{font-size:1.8em;}
+  #maleHand,#femaleHand{width:160px;}
   #heart{font-size:50px;}
 }
 </style>
@@ -181,52 +143,39 @@ Let’s get married.
   <img src="female-hand.png" id="femaleHand">
 </div>
 
-<audio id="music" src="romantic.mp3" loop></audio>
-
 <div id="content">
   <div id="typingText"></div>
-  <div class="carousel-container" id="carousel">
-    <div class="carousel-track" id="track"></div>
-  </div>
 </div>
 
 <script>
 
-const text = `Happy valentine's day Ammaduu ❤️
+const text = `Happy Valentine's Day Ammaduu ❤️
 
-On 22nd June 2022,<br><br>
-The first time I saw you on your birthday,in that purple dress.<br><br>
+On 22nd June 2022,
+The first time I saw you on your birthday in that purple dress.
 
-That was the day I fell in love with you.💜<br><br>
+That was the day I fell in love with you 💜
 
-Every moment with you makes me happy.<br><br>
+Every moment with you makes me happy.
 
-When I'm sad or happy, you're the one I want to share everything.<br><br>
+When I'm sad or happy, you're the one I want to share everything.
 
-Through all 4 years of BTech and still, I loved you quietly🫣.<br><br>
+Through all 4 years of BTech, I loved you quietly 🫣
 
-But after you went abroad, I started missing you a lot, <br><br>
-and even our calls and messages became less.<br><br>
+After you went abroad, I started missing you a lot.
 
-On this Valentine's Day, you said yes to me💘.<br><br>
+On this Valentine's Day, you said yes to me 💘
 
 Love You Ammaduu 😘`;
 
-let i=0,index=0,autoSlide;
+let i=0;
 
 const typing=document.getElementById("typingText");
-const track=document.getElementById("track");
 const male=document.getElementById("maleHand");
 const female=document.getElementById("femaleHand");
 const engagement=document.getElementById("engagementArea");
 const heart=document.getElementById("heart");
 const preText=document.getElementById("preText");
-
-for(let j=1;j<=30;j++){
-  const img=document.createElement("img");
-  img.src="pic"+j+".jpg";
-  track.appendChild(img);
-}
 
 heart.addEventListener("click",()=>{
   heart.style.display="none";
@@ -234,7 +183,7 @@ heart.addEventListener("click",()=>{
   setTimeout(()=>{
     preText.style.top="35%";
     engagement.style.display="block";
-  },3000);
+  },2000);
 });
 
 let dragging=false,startX=0,startLeft=0,moved=false;
@@ -254,16 +203,11 @@ window.addEventListener("pointermove",(e)=>{
   let delta=e.clientX-startX;
   let newLeft=startLeft+delta;
 
-  if(newLeft<window.innerWidth*0.25) newLeft=window.innerWidth*0.25;
-
-  female.style.left=newLeft+"px";
-
-  let maleTarget=newLeft-male.offsetWidth+30;
-  male.style.left+=(maleTarget-male.offsetLeft)*0.1+"px";
-
   if(newLeft<=window.innerWidth/2){
     dragging=false;
     moveToCenter();
+  } else {
+    female.style.left=newLeft+"px";
   }
 });
 
@@ -271,66 +215,24 @@ function moveToCenter(){
   if(moved) return;
   moved=true;
 
-  const center=window.innerWidth/2;
-
-  male.style.transition="1s";
-  female.style.transition="1s";
-
-  male.style.left=(center-male.offsetWidth)+"px";
-  female.style.left=(center-30)+"px";
-
-  setTimeout(()=>{
-    engagement.style.display="none";
-    startLove();
-  },900);
+  engagement.style.display="none";
+  startLove();
 }
 
 function startLove(){
   document.getElementById("content").style.display="block";
-  window.scrollTo({top:0,behavior:"smooth"});
   typeWriter();
 }
 
 function typeWriter(){
   if(i<text.length){
-    typing.innerHTML+=text.charAt(i);
+    if(text.charAt(i)==="\n"){
+      typing.innerHTML+="<br><br>";
+    } else {
+      typing.innerHTML+=text.charAt(i);
+    }
     i++;
     setTimeout(typeWriter,40);
-  }else{
-    showCarousel();
-  }
-}
-
-function showCarousel(){
-  const carousel=document.getElementById("carousel");
-  carousel.classList.add("show");
-  updateCarousel();
-  autoSlide=setInterval(()=>{
-    index++;
-    if(index>29) index=0;
-    updateCarousel();
-  },3000);
-}
-
-function updateCarousel(){
-  const images=track.children;
-  for(let k=0;k<images.length;k++){
-    let offset=k-index;
-
-    if(offset===0){
-      images[k].style.transform="translateX(-50%) scale(1.2)";
-      images[k].style.opacity="1";
-      images[k].style.zIndex="5";
-    }else if(offset===-1){
-      images[k].style.transform="translateX(-180%) scale(0.8)";
-      images[k].style.opacity="0.5";
-    }else if(offset===1){
-      images[k].style.transform="translateX(80%) scale(0.8)";
-      images[k].style.opacity="0.5";
-    }else{
-      images[k].style.transform="translateX(-50%) scale(0.6)";
-      images[k].style.opacity="0";
-    }
   }
 }
 
